@@ -9,18 +9,19 @@ module RubyAsterisk
   # Ruby-asterisk main classes
   #
   class AMI
-    attr_accessor :host, :port, :connected
+    attr_accessor :host, :port, :connected, :timeout
 
-    def initialize(host, port)
+    def initialize(host, port, timeout=10)
       self.host = host.to_s
       self.port = port.to_i
       self.connected = false
+      self.timeout = timeout.to_i
       @session = nil
     end
 
     def connect
       begin
-        @session = Net::Telnet::new('Host' => self.host, 'Port' => self.port, 'Timeout' => 10)
+        @session = Net::Telnet::new('Host' => self.host, 'Port' => self.port, 'Timeout' => self.timeout)
         self.connected = true
       rescue Exception => ex
         false
